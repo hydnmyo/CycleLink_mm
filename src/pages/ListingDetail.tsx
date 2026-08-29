@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CategoryBadge } from '../components/CategoryBadge'
 import { InquiryModal } from '../components/InquiryModal'
+import { ListingImage } from '../components/ListingImage'
 import { useAuth } from '../context/AuthProvider'
 import { fetchListing } from '../lib/api'
 import { conditionLabel, formatDate, formatMmk, formatQuantity } from '../lib/format'
@@ -48,6 +49,12 @@ export function ListingDetail() {
     <main className="page">
       <div className="detail-layout">
         <article className="card detail-main">
+          <ListingImage
+            className="listing-detail-image"
+            title={listing.title}
+            category={listing.category}
+            imageUrl={listing.imageUrl}
+          />
           <div className="badge-row">
             <CategoryBadge category={listing.category} subcategory={listing.subcategory} />
             <span className="badge badge-neutral">{conditionLabel(listing.condition)}</span>

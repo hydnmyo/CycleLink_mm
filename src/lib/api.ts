@@ -1,5 +1,11 @@
 import { SEED_LISTINGS } from '../data/seed'
-import type { CreateInquiryInput, CreateListingInput, ListingWithSeller } from '../types'
+import type {
+  CreateInquiryInput,
+  CreateListingInput,
+  ListingWithSeller,
+  SellerInquiry,
+  UpdateListingInput,
+} from '../types'
 
 async function readError(res: Response): Promise<string> {
   try {
@@ -50,4 +56,43 @@ export async function createInquiry(input: CreateInquiryInput): Promise<void> {
     body: JSON.stringify(input),
   })
   if (!res.ok) throw new Error(await readError(res))
+}
+
+export async function uploadListingImage(file: File): Promise<string> {
+  const form = new FormData()
+  form.append('file', file)
+  const res = await fetch('/api/uploads', {
+    method: 'POST',
+    credentials: 'include',
+    body: form,
+  })
+  if (!res.ok) throw new Error(await readError(res))
+  const body = (await res.json()) as { url: string }
+  return body.url
+}
+
+export async function fetchMyListings(): Promise<ListingWithSeller[]> {
+  const res = await fetch('/api/me/listings', { credentials: 'include' })
+  if (!res.ok) throw new Error(await readError(res))
+  return (await res.json()) as ListingWithSeller[]
+}
+
+export async function updateListing(
+  id: number,
+  input: UpdateListingInput,
+): Promise<ListingWithSeller> {
+  const res = await fetch(`/api/listings/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(input),
+  })
+  if (!res.ok) throw new Error(await readError(res))
+  return (await res.json()) as ListingWithSeller
+}
+
+export async function fetchSellerInquiries(): Promise<SellerInquiry[]> {
+  const res = await fetch('/api/inquiries', { credentials: 'include' })
+  if (!res.ok) throw new Error(await readError(res))
+  return (await res.json()) as SellerInquiry[]
 }

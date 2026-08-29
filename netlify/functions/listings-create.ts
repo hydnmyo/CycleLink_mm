@@ -37,6 +37,11 @@ export default async (req: Request) => {
     priceRaw === null || priceRaw === '' || priceRaw === undefined
       ? null
       : Number(priceRaw)
+  const imageUrlRaw = body.imageUrl
+  const imageUrl =
+    imageUrlRaw === null || imageUrlRaw === '' || imageUrlRaw === undefined
+      ? null
+      : String(imageUrlRaw).trim()
 
   if (!title || !description || !subcategory || !city) {
     return errorJson('Title, description, subcategory, and city are required.', 422)
@@ -49,6 +54,9 @@ export default async (req: Request) => {
   }
   if (priceMmk != null && (!Number.isFinite(priceMmk) || priceMmk < 0)) {
     return errorJson('Price must be a positive number or empty.', 422)
+  }
+  if (imageUrl && !imageUrl.startsWith('/api/uploads/')) {
+    return errorJson('Invalid image URL.', 422)
   }
 
   try {
@@ -66,6 +74,7 @@ export default async (req: Request) => {
         priceMmk,
         condition,
         city,
+        imageUrl,
       })
       .returning()
 

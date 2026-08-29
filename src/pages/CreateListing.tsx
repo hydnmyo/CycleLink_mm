@@ -1,8 +1,11 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CATEGORIES, CITIES, CONDITIONS, SUBCATEGORIES, UNITS } from '../data/categories'
-import { createListing } from '../lib/api'
+import { createListing, uploadListingImage } from '../lib/api'
 import type { Category, Condition, Unit } from '../types'
+
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024
+const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
 
 export function CreateListing() {
   const navigate = useNavigate()
@@ -15,14 +18,48 @@ export function CreateListing() {
   const [price, setPrice] = useState('')
   const [condition, setCondition] = useState<Condition>('scrap')
   const [city, setCity] = useState<string>(CITIES[0])
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [pending, setPending] = useState(false)
+
+  useEffect(() => {
+    if (!imageFile) {
+      setImagePreview(null)
+      return
+    }
+    const url = URL.createObjectURL(imageFile)
+    setImagePreview(url)
+    return () => URL.revokeObjectURL(url)
+  }, [imageFile])
+
+  const onImageChange = (file: File | null) => {
+    setError('')
+    if (!file) {
+      setImageFile(null)
+      return
+    }
+    if (!ALLOWED_IMAGE_TYPES.has(file.type)) {
+      setError('Only JPEG, PNG, and WebP images are allowed.')
+      return
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      setError('Image must be 5 MB or smaller.')
+      return
+    }
+    setImageFile(file)
+  }
 
   const submit = async (event: FormEvent) => {
     event.preventDefault()
     setError('')
     setPending(true)
     try {
+      let imageUrl: string | null = null
+      if (imageFile) {
+        imageUrl = await uploadListingImage(imageFile)
+      }
+
       const listing = await createListing({
         title,
         description,
@@ -33,6 +70,7 @@ export function CreateListing() {
         priceMmk: price.trim() === '' ? null : Number(price),
         condition,
         city,
+        imageUrl,
       })
       navigate(`/listings/${listing.id}`)
     } catch (err) {
@@ -143,6 +181,18 @@ export function CreateListing() {
           </label>
         </div>
         <label className="field">
+          <span>Photo (optional)</span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={(event) => onImageChange(event.target.files?.[0] ?? null)}
+          />
+          <span className="muted">JPEG, PNG, or WebP up to 5 MB.</span>
+        </label>
+        {imagePreview ? (
+          <img className="listing-upload-preview" src={imagePreview} alt="Selected listing preview" />
+        ) : null}
+        <label className="field">
           <span>City</span>
           <select value={city} onChange={(event) => setCity(event.target.value)}>
             {CITIES.map((item) => (
@@ -154,7 +204,7 @@ export function CreateListing() {
         </label>
         {error ? <p className="error">{error}</p> : null}
         <button className="btn btn-primary" type="submit" disabled={pending}>
-          {pending ? 'Publishing…' : 'Publish listing'}
+          {pending ? (imageFile ? 'Uploading & publishing…' : 'Publishing…') : 'Publish listing'}
         </button>
       </form>
     </main>

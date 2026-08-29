@@ -12,6 +12,7 @@
     "db:migrate": "netlify database migrations apply"
   },
   "dependencies": {
+    "@netlify/blobs": "^11.0.2",
     "@netlify/database": "^2.0.0",
     "@netlify/functions": "^6.0.0",
     "@netlify/identity": "^2.0.0",

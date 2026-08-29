@@ -34,6 +34,12 @@ export function Layout() {
             {user ? (
               <>
                 <span className="user-chip">{displayName(user)}</span>
+                <NavLink className="btn btn-ghost" to="/my-listings">
+                  My listings
+                </NavLink>
+                <NavLink className="btn btn-ghost" to="/inbox">
+                  Inbox
+                </NavLink>
                 <NavLink className="btn btn-primary" to="/listings/new">
                   List surplus
                 </NavLink>
