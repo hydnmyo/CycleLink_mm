@@ -14,7 +14,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 1850000,
     condition: 'scrap',
     city: 'Thilawa SEZ',
-    imageUrl: null,
     createdAt: '2026-08-12T04:00:00.000Z',
     seller: {
       id: 1,
@@ -37,7 +36,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 2400000,
     condition: 'scrap',
     city: 'Yangon',
-    imageUrl: null,
     createdAt: '2026-08-18T07:30:00.000Z',
     seller: {
       id: 2,
@@ -60,7 +58,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 420000,
     condition: 'scrap',
     city: 'Yangon',
-    imageUrl: null,
     createdAt: '2026-08-20T02:15:00.000Z',
     seller: {
       id: 3,
@@ -83,7 +80,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 5600000,
     condition: 'scrap',
     city: 'Mandalay',
-    imageUrl: null,
     createdAt: '2026-08-15T09:00:00.000Z',
     seller: {
       id: 4,
@@ -106,7 +102,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 980000,
     condition: 'new',
     city: 'Bago',
-    imageUrl: null,
     createdAt: '2026-08-08T11:20:00.000Z',
     seller: {
       id: 5,
@@ -129,7 +124,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 760000,
     condition: 'new',
     city: 'Yangon',
-    imageUrl: null,
     createdAt: '2026-08-22T03:45:00.000Z',
     seller: {
       id: 6,
@@ -152,7 +146,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 990000,
     condition: 'scrap',
     city: 'Thilawa SEZ',
-    imageUrl: null,
     createdAt: '2026-08-05T06:10:00.000Z',
     seller: {
       id: 1,
@@ -175,7 +168,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 310000,
     condition: 'scrap',
     city: 'Yangon',
-    imageUrl: null,
     createdAt: '2026-08-21T08:00:00.000Z',
     seller: {
       id: 6,
@@ -198,7 +190,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 360000,
     condition: 'scrap',
     city: 'Mandalay',
-    imageUrl: null,
     createdAt: '2026-08-14T01:40:00.000Z',
     seller: {
       id: 7,
@@ -221,7 +212,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 2100000,
     condition: 'scrap',
     city: 'Bago',
-    imageUrl: null,
     createdAt: '2026-08-11T10:05:00.000Z',
     seller: {
       id: 8,
@@ -244,7 +234,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 540000,
     condition: 'used',
     city: 'Yangon',
-    imageUrl: null,
     createdAt: '2026-08-19T05:25:00.000Z',
     seller: {
       id: 2,
@@ -267,7 +256,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 1280000,
     condition: 'new',
     city: 'Bago',
-    imageUrl: null,
     createdAt: '2026-08-09T12:00:00.000Z',
     seller: {
       id: 5,
@@ -290,7 +278,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 650000,
     condition: 'scrap',
     city: 'Thilawa SEZ',
-    imageUrl: null,
     createdAt: '2026-08-17T14:30:00.000Z',
     seller: {
       id: 1,
@@ -313,7 +300,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 280000,
     condition: 'used',
     city: 'Yangon',
-    imageUrl: null,
     createdAt: '2026-08-16T03:10:00.000Z',
     seller: {
       id: 3,
@@ -336,7 +322,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 3200000,
     condition: 'scrap',
     city: 'Mandalay',
-    imageUrl: null,
     createdAt: '2026-08-13T06:50:00.000Z',
     seller: {
       id: 4,
@@ -344,94 +329,6 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
       industry: 'Metal fabrication',
       city: 'Mandalay',
       email: 'sales@mdymetal.mm',
-    },
-  },
-  {
-    id: 16,
-    businessId: 9,
-    title: 'Cotton Fabric Surplus',
-    description:
-      'Unused cotton fabric rolls from a Yangon cutting line. Mostly undyed and light solids, stored dry. Suitable for smaller garment shops or recycled-fiber spinning.',
-    category: 'industrial',
-    subcategory: 'textile',
-    quantity: 85,
-    unit: 'kg',
-    priceMmk: 382500,
-    condition: 'new',
-    city: 'Yangon',
-    createdAt: '2026-08-24T03:00:00.000Z',
-    seller: {
-      id: 9,
-      name: 'Green Stitch Textile',
-      industry: 'Textiles',
-      city: 'Yangon',
-      email: 'hello@greenstitch.mm',
-    },
-  },
-  {
-    id: 17,
-    businessId: 9,
-    title: 'Denim Offcuts',
-    description:
-      'Indigo denim offcuts from jeans production. Cotton-rich, packed by shade. Useful for recycled yarn, patchwork, or industrial wipers.',
-    category: 'industrial',
-    subcategory: 'textile',
-    quantity: 240,
-    unit: 'kg',
-    priceMmk: 432000,
-    condition: 'scrap',
-    city: 'Yangon',
-    createdAt: '2026-08-23T06:20:00.000Z',
-    seller: {
-      id: 9,
-      name: 'Green Stitch Textile',
-      industry: 'Textiles',
-      city: 'Yangon',
-      email: 'hello@greenstitch.mm',
-    },
-  },
-  {
-    id: 18,
-    businessId: 9,
-    title: 'Polyester Thread Cones',
-    description:
-      'Surplus polyester sewing-thread cones from a completed export order. Mixed colours, unused. Sold by the cone.',
-    category: 'industrial',
-    subcategory: 'textile',
-    quantity: 320,
-    unit: 'piece',
-    priceMmk: 384000,
-    condition: 'new',
-    city: 'Yangon',
-    createdAt: '2026-08-21T09:10:00.000Z',
-    seller: {
-      id: 9,
-      name: 'Green Stitch Textile',
-      industry: 'Textiles',
-      city: 'Yangon',
-      email: 'hello@greenstitch.mm',
-    },
-  },
-  {
-    id: 19,
-    businessId: 9,
-    title: 'Metal Zippers & Trims',
-    description:
-      'Unused metal zippers and garment trims left after a style change. Mixed lengths. Suitable for repair shops or accessory makers.',
-    category: 'industrial',
-    subcategory: 'metal',
-    quantity: 6400,
-    unit: 'piece',
-    priceMmk: 1408000,
-    condition: 'new',
-    city: 'Yangon',
-    createdAt: '2026-08-19T02:40:00.000Z',
-    seller: {
-      id: 9,
-      name: 'Green Stitch Textile',
-      industry: 'Textiles',
-      city: 'Yangon',
-      email: 'hello@greenstitch.mm',
     },
   },
 ]

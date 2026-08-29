@@ -1,9 +1,9 @@
 import { NavLink, Outlet } from 'react-router-dom'
+import { LoopiAssistant } from './loopi/LoopiAssistant'
 import { displayName, useAuth } from '../context/AuthProvider'
 
-const publicLinks = [
+const links = [
   { to: '/browse', label: 'Browse' },
-  { to: '/wanted', label: 'Wanted' },
   { to: '/impact', label: 'Impact' },
   { to: '/how-it-works', label: 'How it works' },
 ]
@@ -20,36 +20,28 @@ export function Layout() {
       ) : null}
       <header className="site-header">
         <div className="header-inner">
-          <NavLink className="brand" to="/">
-            <span className="brand-mark">CL</span>
-            CycleLink MM
+          <NavLink className="brand" to="/" aria-label="CycleLink home">
+            <img
+              className="brand-logo"
+              src="/logo.png"
+              alt="CycleLink"
+              width={964}
+              height={234}
+            />
           </NavLink>
           <nav className="nav-links" aria-label="Primary">
-            {publicLinks.map((link) => (
+            {links.map((link) => (
               <NavLink key={link.to} to={link.to}>
                 {link.label}
               </NavLink>
             ))}
-            {user ? <NavLink to="/dashboard">Dashboard</NavLink> : null}
           </nav>
           <div className="header-actions">
             {user ? (
               <>
                 <span className="user-chip">{displayName(user)}</span>
-                <NavLink className="btn btn-ghost" to="/dashboard">
-                  Dashboard
-                </NavLink>
-                <NavLink className="btn btn-ghost" to="/my-listings">
-                  My listings
-                </NavLink>
-                <NavLink className="btn btn-ghost" to="/inbox">
-                  Inbox
-                </NavLink>
-                <NavLink className="btn btn-ghost" to="/alerts">
-                  Alerts
-                </NavLink>
                 <NavLink className="btn btn-primary" to="/listings/new">
-                  Post surplus
+                  List surplus
                 </NavLink>
                 <button className="btn btn-ghost" type="button" onClick={() => void logout()}>
                   Log out
@@ -61,7 +53,7 @@ export function Layout() {
                   Log in
                 </NavLink>
                 <NavLink className="btn btn-primary" to="/signup">
-                  Register
+                  Sign up
                 </NavLink>
               </>
             )}
@@ -69,6 +61,7 @@ export function Layout() {
         </div>
       </header>
       <Outlet />
+      <LoopiAssistant />
       <footer className="site-footer">
         <div className="footer-inner">
           <p>CycleLink MM — surplus stays in Myanmar’s industrial loop.</p>

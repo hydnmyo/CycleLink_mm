@@ -2,17 +2,10 @@ import { Link } from 'react-router-dom'
 import { formatMmk, formatQuantity } from '../lib/format'
 import type { ListingWithSeller } from '../types'
 import { CategoryBadge } from './CategoryBadge'
-import { ListingImage } from './ListingImage'
 
 export function ListingCard({ listing }: { listing: ListingWithSeller }) {
   return (
     <Link className="card listing-card" to={`/listings/${listing.id}`}>
-      <ListingImage
-        className="listing-card-image"
-        title={listing.title}
-        category={listing.category}
-        imageUrl={listing.imageUrl}
-      />
       <div className="badge-row">
         <CategoryBadge category={listing.category} subcategory={listing.subcategory} />
         <span className="badge badge-neutral">{listing.city}</span>

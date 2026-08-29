@@ -4,9 +4,4 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react(), netlify()],
-  server: {
-    watch: {
-      ignored: ['**/.netlify/**'],
-    },
-  },
 })

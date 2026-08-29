@@ -1,8 +1,8 @@
 import type { Config } from '@netlify/functions'
+import { getUser } from '@netlify/identity'
 import { eq } from 'drizzle-orm'
 import { db } from '../../db'
 import { inquiries, listings } from '../../db/schema'
-import { userFromRequest } from './_shared/auth'
 import { ensureBusiness } from './_shared/business'
 import { errorJson, json } from './_shared/map'
 
@@ -11,8 +11,8 @@ export default async (req: Request) => {
     return errorJson('Method not allowed', 405)
   }
 
-  const user = await userFromRequest(req)
-  if (!user) return errorJson('Unauthorized. Log in again.', 401)
+  const user = await getUser()
+  if (!user) return errorJson('Unauthorized', 401)
 
   let body: Record<string, unknown>
   try {
@@ -36,9 +36,6 @@ export default async (req: Request) => {
     if (!listing) return errorJson('Listing not found', 404)
 
     const buyer = await ensureBusiness(user)
-    if (listing.businessId === buyer.id) {
-      return errorJson('You cannot send an inquiry about your own listing.', 422)
-    }
     const [created] = await db
       .insert(inquiries)
       .values({

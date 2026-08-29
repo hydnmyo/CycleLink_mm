@@ -2,21 +2,17 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CategoryBadge } from '../components/CategoryBadge'
 import { InquiryModal } from '../components/InquiryModal'
-import { ListingImage } from '../components/ListingImage'
-import { WantedCard } from '../components/WantedCard'
 import { useAuth } from '../context/AuthProvider'
-import { fetchListing, fetchWanted } from '../lib/api'
+import { fetchListing } from '../lib/api'
 import { conditionLabel, formatDate, formatMmk, formatQuantity } from '../lib/format'
 import { formatCo2e, formatKg, listingCo2e, listingKg } from '../lib/impact'
-import { materialsMatch } from '../lib/match'
-import type { ListingWithSeller, WantedWithBuyer } from '../types'
+import type { ListingWithSeller } from '../types'
 
 export function ListingDetail() {
   const { id } = useParams()
   const listingId = Number(id)
   const { user, identityAvailable } = useAuth()
   const [listing, setListing] = useState<ListingWithSeller | null>(null)
-  const [wantedMatches, setWantedMatches] = useState<WantedWithBuyer[]>([])
   const [loaded, setLoaded] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -25,15 +21,8 @@ export function ListingDetail() {
       setLoaded(true)
       return
     }
-    void Promise.all([fetchListing(listingId), fetchWanted()]).then(([row, wanted]) => {
+    void fetchListing(listingId).then((row) => {
       setListing(row)
-      if (row) {
-        setWantedMatches(
-          wanted.filter(
-            (need) => need.businessId !== row.businessId && materialsMatch(row, need),
-          ),
-        )
-      }
       setLoaded(true)
     })
   }, [listingId])
@@ -59,12 +48,6 @@ export function ListingDetail() {
     <main className="page">
       <div className="detail-layout">
         <article className="card detail-main">
-          <ListingImage
-            className="listing-detail-image"
-            title={listing.title}
-            category={listing.category}
-            imageUrl={listing.imageUrl}
-          />
           <div className="badge-row">
             <CategoryBadge category={listing.category} subcategory={listing.subcategory} />
             <span className="badge badge-neutral">{conditionLabel(listing.condition)}</span>
@@ -110,17 +93,6 @@ export function ListingDetail() {
           <p className="muted">{listing.seller.email}</p>
         </aside>
       </div>
-      {wantedMatches.length ? (
-        <div style={{ marginTop: 28 }}>
-          <h2>Buyers looking for this material</h2>
-          <p className="muted">Same type and city as this surplus listing.</p>
-          <div className="listing-grid">
-            {wantedMatches.map((need) => (
-              <WantedCard key={need.id} need={need} />
-            ))}
-          </div>
-        </div>
-      ) : null}
       {open ? (
         <InquiryModal
           listingId={listing.id}

@@ -1,57 +1,48 @@
 import type { Handler } from '@netlify/functions'
-import { businessFieldsFromMeta } from './_shared/business'
-
-type SignupUser = {
-  id?: string
-  email?: string
-  app_metadata?: Record<string, unknown>
-  user_metadata?: Record<string, unknown>
-}
-
-function readUser(body: string | null): SignupUser | undefined {
-  try {
-    const payload = JSON.parse(body || '{}') as { user?: SignupUser }
-    return payload.user
-  } catch {
-    return undefined
-  }
-}
-
-async function seedBusiness(user: SignupUser) {
-  if (!user.id) return
-  const { eq } = await import('drizzle-orm')
-  const { db } = await import('../../db')
-  const { businesses } = await import('../../db/schema')
-  const meta = user.user_metadata ?? {}
-
-  const existing = await db
-    .select()
-    .from(businesses)
-    .where(eq(businesses.identityUserId, user.id))
-    .limit(1)
-
-  if (existing[0]) return
-
-  await db.insert(businesses).values({
-    identityUserId: user.id,
-    ...businessFieldsFromMeta(meta, { email: user.email }),
-  })
-}
+import { eq } from 'drizzle-orm'
+import { db } from '../../db'
+import { businesses } from '../../db/schema'
 
 const handler: Handler = async (event) => {
-  const user = readUser(event.body)
+  const payload = JSON.parse(event.body || '{}') as {
+    user?: {
+      id?: string
+      email?: string
+      app_metadata?: Record<string, unknown>
+      user_metadata?: Record<string, unknown>
+    }
+  }
+  const user = payload.user
+  const identityUserId = user?.id
+  const meta = user?.user_metadata ?? {}
 
-  try {
-    await seedBusiness(user ?? {})
-  } catch {
-    // Signup must still succeed if the database write fails.
+  if (identityUserId) {
+    try {
+      const existing = await db
+        .select()
+        .from(businesses)
+        .where(eq(businesses.identityUserId, identityUserId))
+        .limit(1)
+
+      if (!existing[0]) {
+        await db.insert(businesses).values({
+          identityUserId,
+          name: String(meta.company ?? meta.full_name ?? 'Unnamed business'),
+          industry: String(meta.industry ?? 'Other'),
+          city: String(meta.city ?? 'Yangon'),
+          email: user?.email ?? '',
+        })
+      }
+    } catch {
+      // Role assignment should still succeed if the database is not ready.
+    }
   }
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       app_metadata: {
-        ...(user?.app_metadata ?? {}),
+        ...user?.app_metadata,
         roles: ['business'],
       },
     }),
