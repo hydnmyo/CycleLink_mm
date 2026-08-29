@@ -14,6 +14,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 1850000,
     condition: 'scrap',
     city: 'Thilawa SEZ',
+    imageUrl: null,
     createdAt: '2026-08-12T04:00:00.000Z',
     seller: {
       id: 1,
@@ -36,6 +37,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 2400000,
     condition: 'scrap',
     city: 'Yangon',
+    imageUrl: null,
     createdAt: '2026-08-18T07:30:00.000Z',
     seller: {
       id: 2,
@@ -58,6 +60,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 420000,
     condition: 'scrap',
     city: 'Yangon',
+    imageUrl: null,
     createdAt: '2026-08-20T02:15:00.000Z',
     seller: {
       id: 3,
@@ -80,6 +83,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 5600000,
     condition: 'scrap',
     city: 'Mandalay',
+    imageUrl: null,
     createdAt: '2026-08-15T09:00:00.000Z',
     seller: {
       id: 4,
@@ -102,6 +106,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 980000,
     condition: 'new',
     city: 'Bago',
+    imageUrl: null,
     createdAt: '2026-08-08T11:20:00.000Z',
     seller: {
       id: 5,
@@ -124,6 +129,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 760000,
     condition: 'new',
     city: 'Yangon',
+    imageUrl: null,
     createdAt: '2026-08-22T03:45:00.000Z',
     seller: {
       id: 6,
@@ -146,6 +152,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 990000,
     condition: 'scrap',
     city: 'Thilawa SEZ',
+    imageUrl: null,
     createdAt: '2026-08-05T06:10:00.000Z',
     seller: {
       id: 1,
@@ -168,6 +175,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 310000,
     condition: 'scrap',
     city: 'Yangon',
+    imageUrl: null,
     createdAt: '2026-08-21T08:00:00.000Z',
     seller: {
       id: 6,
@@ -190,6 +198,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 360000,
     condition: 'scrap',
     city: 'Mandalay',
+    imageUrl: null,
     createdAt: '2026-08-14T01:40:00.000Z',
     seller: {
       id: 7,
@@ -212,6 +221,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 2100000,
     condition: 'scrap',
     city: 'Bago',
+    imageUrl: null,
     createdAt: '2026-08-11T10:05:00.000Z',
     seller: {
       id: 8,
@@ -234,6 +244,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 540000,
     condition: 'used',
     city: 'Yangon',
+    imageUrl: null,
     createdAt: '2026-08-19T05:25:00.000Z',
     seller: {
       id: 2,
@@ -256,6 +267,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 1280000,
     condition: 'new',
     city: 'Bago',
+    imageUrl: null,
     createdAt: '2026-08-09T12:00:00.000Z',
     seller: {
       id: 5,
@@ -278,6 +290,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 650000,
     condition: 'scrap',
     city: 'Thilawa SEZ',
+    imageUrl: null,
     createdAt: '2026-08-17T14:30:00.000Z',
     seller: {
       id: 1,
@@ -300,6 +313,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 280000,
     condition: 'used',
     city: 'Yangon',
+    imageUrl: null,
     createdAt: '2026-08-16T03:10:00.000Z',
     seller: {
       id: 3,
@@ -322,6 +336,7 @@ export const SEED_LISTINGS: ListingWithSeller[] = [
     priceMmk: 3200000,
     condition: 'scrap',
     city: 'Mandalay',
+    imageUrl: null,
     createdAt: '2026-08-13T06:50:00.000Z',
     seller: {
       id: 4,

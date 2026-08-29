@@ -374,7 +374,52 @@ img {
   padding: 16px;
   color: inherit;
   text-decoration: none;
-  min-height: 220px;
+  min-height: 280px;
+}
+
+.listing-card-image,
+.listing-detail-image {
+  width: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--accent-bg);
+}
+
+.listing-card-image {
+  aspect-ratio: 4 / 3;
+}
+
+.listing-detail-image {
+  aspect-ratio: 16 / 10;
+  max-height: 420px;
+}
+
+.listing-image-placeholder {
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--text-h);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.listing-image-placeholder-plastic {
+  background: color-mix(in srgb, var(--plastic) 18%, var(--accent-bg));
+}
+
+.listing-image-placeholder-industrial {
+  background: color-mix(in srgb, var(--industrial) 18%, var(--accent-bg));
+}
+
+.listing-upload-preview {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--border);
 }
 
 .listing-card:hover {
@@ -616,6 +661,24 @@ img {
   gap: 12px;
 }
 
+.management-card,
+.inquiry-card {
+  padding: 20px;
+}
+
+.management-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.management-card h2,
+.inquiry-card h2 {
+  margin: 10px 0 6px;
+  font-size: 1.1rem;
+}
+
 .footnote {
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -640,6 +703,11 @@ img {
   .nav-links {
     width: 100%;
     order: 3;
+  }
+
+  .management-card {
+    align-items: stretch;
+    flex-direction: column;
   }
 }
 

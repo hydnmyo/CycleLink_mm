@@ -36,6 +36,9 @@ export default async (req: Request) => {
     if (!listing) return errorJson('Listing not found', 404)
 
     const buyer = await ensureBusiness(user)
+    if (listing.businessId === buyer.id) {
+      return errorJson('You cannot send an inquiry about your own listing.', 422)
+    }
     const [created] = await db
       .insert(inquiries)
       .values({

@@ -1,6 +1,6 @@
 import type { ListingWithSeller } from '../../../src/types'
 import type { BusinessRow, ListingRow } from '../../../db/schema'
-import type { Category, Condition, Unit } from '../../../src/types'
+import type { Category, Condition, ListingStatus, Unit } from '../../../src/types'
 
 export function mapListing(
   listing: ListingRow,
@@ -18,6 +18,8 @@ export function mapListing(
     priceMmk: listing.priceMmk,
     condition: listing.condition as Condition,
     city: listing.city,
+    imageUrl: listing.imageUrl ?? null,
+    status: listing.status as ListingStatus,
     createdAt: listing.createdAt?.toISOString() ?? new Date().toISOString(),
     seller: {
       id: seller.id,

@@ -8,9 +8,11 @@ import { CreateListing } from './pages/CreateListing'
 import { Home } from './pages/Home'
 import { HowItWorks } from './pages/HowItWorks'
 import { Impact } from './pages/Impact'
+import { Inbox } from './pages/Inbox'
 import { ListingDetail } from './pages/ListingDetail'
 import { Dashboard } from './pages/Dashboard'
 import { Login } from './pages/Login'
+import { MyListings } from './pages/MyListings'
 import { Signup } from './pages/Signup'
 
 export default function App() {
@@ -27,6 +29,16 @@ export default function App() {
               </ProtectedRoute>
             } />
             <Route path="listings/:id" element={<ListingDetail />} />
+            <Route path="my-listings" element={
+              <ProtectedRoute>
+                <MyListings />
+              </ProtectedRoute>
+            } />
+            <Route path="inbox" element={
+              <ProtectedRoute>
+                <Inbox />
+              </ProtectedRoute>
+            } />
             <Route path="impact" element={<Impact />} />
             <Route path="how-it-works" element={<HowItWorks />} />
             <Route path="dashboard" element={

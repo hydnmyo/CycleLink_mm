@@ -27,6 +27,8 @@ export const listings = pgTable('listings', {
   priceMmk: integer('price_mmk'),
   condition: varchar({ length: 16 }).notNull(),
   city: varchar({ length: 128 }).notNull(),
+  imageUrl: varchar('image_url', { length: 512 }),
+  status: varchar({ length: 16 }).notNull().default('active'),
   createdAt: timestamp('created_at').defaultNow(),
 })
 

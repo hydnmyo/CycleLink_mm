@@ -29,9 +29,7 @@ export function Layout() {
                 {link.label}
               </NavLink>
             ))}
-            {user ? (
-              <NavLink to="/dashboard">Dashboard</NavLink>
-            ) : null}
+            {user ? <NavLink to="/dashboard">Dashboard</NavLink> : null}
           </nav>
           <div className="header-actions">
             {user ? (
@@ -39,6 +37,12 @@ export function Layout() {
                 <span className="user-chip">{displayName(user)}</span>
                 <NavLink className="btn btn-ghost" to="/dashboard">
                   Dashboard
+                </NavLink>
+                <NavLink className="btn btn-ghost" to="/my-listings">
+                  My listings
+                </NavLink>
+                <NavLink className="btn btn-ghost" to="/inbox">
+                  Inbox
                 </NavLink>
                 <NavLink className="btn btn-primary" to="/listings/new">
                   Post surplus

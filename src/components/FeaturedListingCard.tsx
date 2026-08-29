@@ -23,7 +23,7 @@ export function FeaturedListingCard({
   listing: ListingWithSeller
   featured?: boolean
 }) {
-  const image = listingImage(listing.category, listing.subcategory)
+  const image = listing.imageUrl || listingImage(listing.category, listing.subcategory)
   const categoryName = displayCategoryName(listing.category, listing.subcategory)
   const rating = sellerRating(listing.id).toFixed(1)
 
