@@ -44,7 +44,7 @@ export function Home() {
       <section className="home-hero" style={{ '--hero-bg': `url(${HERO_BG})` } as CSSProperties}>
         <div className="home-hero-inner">
           <span className="home-hero-badge">Circular B2B marketplace · Myanmar</span>
-          <h1>Turn Surplus Into Opportunity.</h1>
+          <h1>Waste Less. Reuse more.</h1>
           <p className="home-hero-lede">
             A circular B2B marketplace where businesses can sell surplus materials and find the
             resources they need.
