@@ -10,9 +10,6 @@ const UNIT_TO_KG: Record<Unit, number> = {
 
 export const CO2_PER_KG = 0.5
 
-/** Recorded exchanges shown on the Impact page until a transactions API exists. */
-export const COMPLETED_TRANSACTIONS = 5
-
 export function quantityToKg(quantity: number, unit: Unit): number {
   return quantity * UNIT_TO_KG[unit]
 }

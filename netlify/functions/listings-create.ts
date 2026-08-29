@@ -1,10 +1,9 @@
 import type { Config } from '@netlify/functions'
+import { getUser } from '@netlify/identity'
 import { db } from '../../db'
 import { listings } from '../../db/schema'
-import { userFromRequest } from './_shared/auth'
 import { ensureBusiness } from './_shared/business'
 import { errorJson, json, mapListing } from './_shared/map'
-import { createAlertsForNewListing } from './_shared/match'
 
 const CATEGORIES = new Set(['plastic', 'industrial'])
 const UNITS = new Set(['kg', 'ton', 'piece', 'lot'])
@@ -15,8 +14,8 @@ export default async (req: Request) => {
     return errorJson('Method not allowed', 405)
   }
 
-  const user = await userFromRequest(req)
-  if (!user) return errorJson('Unauthorized. Log in again, then publish.', 401)
+  const user = await getUser()
+  if (!user) return errorJson('Unauthorized', 401)
 
   let body: Record<string, unknown>
   try {
@@ -38,11 +37,6 @@ export default async (req: Request) => {
     priceRaw === null || priceRaw === '' || priceRaw === undefined
       ? null
       : Number(priceRaw)
-  const imageUrlRaw = body.imageUrl
-  const imageUrl =
-    imageUrlRaw === null || imageUrlRaw === '' || imageUrlRaw === undefined
-      ? null
-      : String(imageUrlRaw).trim()
 
   if (!title || !description || !subcategory || !city) {
     return errorJson('Title, description, subcategory, and city are required.', 422)
@@ -55,9 +49,6 @@ export default async (req: Request) => {
   }
   if (priceMmk != null && (!Number.isFinite(priceMmk) || priceMmk < 0)) {
     return errorJson('Price must be a positive number or empty.', 422)
-  }
-  if (imageUrl && !imageUrl.startsWith('/api/uploads/')) {
-    return errorJson('Invalid image URL.', 422)
   }
 
   try {
@@ -75,23 +66,12 @@ export default async (req: Request) => {
         priceMmk,
         condition,
         city,
-        imageUrl,
-        status: 'active',
       })
       .returning()
 
-    if (!created) return errorJson('Listing was not saved.', 503)
-
-    try {
-      await createAlertsForNewListing(created)
-    } catch {
-      // Match alerts are best-effort so listing create still succeeds.
-    }
-
     return json(mapListing(created, business), 201)
-  } catch (err) {
-    const detail = err instanceof Error ? err.message : 'Database may not be ready yet.'
-    return errorJson(`Could not save listing. ${detail}`, 503)
+  } catch {
+    return errorJson('Could not save listing. Database may not be ready yet.', 503)
   }
 }
 

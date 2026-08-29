@@ -1,13 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { PasswordField } from '../components/PasswordField'
 import { authMessage, useAuth } from '../context/AuthProvider'
 
 export function Login() {
   const { login, identityAvailable } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
-  const next = params.get('next') || '/dashboard'
+  const next = params.get('next') || '/browse'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -30,34 +29,33 @@ export function Login() {
   return (
     <main className="page auth-page">
       <h1>Log in</h1>
-      <p className="lede">Sign in with the business email you used when you registered.</p>
+      <p className="lede">Sign in with the email you used for your business account.</p>
       {!identityAvailable ? (
         <p className="error">Authentication works after you deploy this site to Netlify.</p>
       ) : null}
-      <form className="form auth-form" onSubmit={(event) => void submit(event)}>
+      <form className="form" onSubmit={(event) => void submit(event)}>
         <label className="field">
-          <span>Business email</span>
+          <span>Work email</span>
           <input
             required
             type="email"
             autoComplete="email"
-            placeholder="name@company.com"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
         </label>
-        <PasswordField
-          label="Password"
-          value={password}
-          onChange={setPassword}
-          autoComplete="current-password"
-        />
+        <label className="field">
+          <span>Password</span>
+          <input
+            required
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </label>
         {error ? <p className="error">{error}</p> : null}
-        <button
-          className="btn btn-primary btn-block"
-          type="submit"
-          disabled={pending || !identityAvailable}
-        >
+        <button className="btn btn-primary" type="submit" disabled={pending || !identityAvailable}>
           {pending ? 'Signing in…' : 'Log in'}
         </button>
       </form>

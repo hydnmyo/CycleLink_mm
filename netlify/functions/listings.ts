@@ -10,7 +10,6 @@ async function listAll() {
     .select({ listing: listings, seller: businesses })
     .from(listings)
     .innerJoin(businesses, eq(listings.businessId, businesses.id))
-    .where(eq(listings.status, 'active'))
     .orderBy(desc(listings.createdAt))
 
   return rows.map((row) => mapListing(row.listing, row.seller))
@@ -50,7 +49,7 @@ export default async (req: Request, context: Context) => {
       if (!listing) return errorJson('Listing not found', 404)
       return json(listing)
     }
-    return json(SEED_LISTINGS.filter((listing) => listing.status !== 'sold'))
+    return json(SEED_LISTINGS)
   }
 }
 
