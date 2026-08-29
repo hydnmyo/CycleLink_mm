@@ -17,6 +17,9 @@ export type SignupInput = {
   company: string
   industry: string
   city: string
+  contactPerson: string
+  phone: string
+  registrationDocument: string
 }
 
 type AuthContextValue = {
@@ -34,6 +37,19 @@ export function displayName(user: User | null): string {
   const company = user?.userMetadata?.company
   if (typeof company === 'string' && company.trim()) return company
   return user?.name ?? user?.email ?? 'Account'
+}
+
+export function metaString(user: User | null, key: string): string {
+  const value = user?.userMetadata?.[key]
+  return typeof value === 'string' ? value.trim() : ''
+}
+
+export function displayCity(user: User | null): string {
+  return metaString(user, 'city') || metaString(user, 'location') || 'Yangon'
+}
+
+export function displayIndustry(user: User | null): string {
+  return metaString(user, 'industry') || 'Textiles'
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -82,10 +98,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
       signup: async (input) => {
         const current = await identitySignup(input.email, input.password, {
-          full_name: input.company,
+          full_name: input.contactPerson || input.company,
           company: input.company,
           industry: input.industry,
           city: input.city,
+          location: input.city,
+          contact_person: input.contactPerson,
+          phone: input.phone,
+          registration_document: input.registrationDocument,
         })
         setUser(current)
         return { needsConfirm: !current.confirmedAt }

@@ -7,6 +7,9 @@ export const businesses = pgTable('businesses', {
   industry: varchar({ length: 255 }).notNull(),
   city: varchar({ length: 128 }).notNull(),
   email: varchar({ length: 255 }).notNull(),
+  contactPerson: varchar('contact_person', { length: 255 }),
+  phone: varchar({ length: 64 }),
+  registrationDocument: varchar('registration_document', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow(),
 })
 

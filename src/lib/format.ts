@@ -7,6 +7,18 @@ export function formatMmk(price: number | null): string {
   return `${mmk.format(price)} MMK`
 }
 
+export function formatCompactMmk(value: number): string {
+  if (value >= 1_000_000) {
+    const millions = value / 1_000_000
+    const digits = millions >= 10 ? 1 : 2
+    return `${millions.toLocaleString('en-MM', { maximumFractionDigits: digits })}M MMK`
+  }
+  if (value >= 1000) {
+    return `${(value / 1000).toLocaleString('en-MM', { maximumFractionDigits: 1 })}K MMK`
+  }
+  return `${mmk.format(value)} MMK`
+}
+
 export function formatQuantity(quantity: number, unit: Unit): string {
   const formatted = Number.isInteger(quantity)
     ? mmk.format(quantity)

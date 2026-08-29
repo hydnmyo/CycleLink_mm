@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BusinessRoute } from './components/BusinessRoute'
 import { Layout } from './components/Layout'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthProvider'
@@ -12,6 +13,7 @@ import { HowItWorks } from './pages/HowItWorks'
 import { Impact } from './pages/Impact'
 import { Inbox } from './pages/Inbox'
 import { ListingDetail } from './pages/ListingDetail'
+import { Dashboard } from './pages/Dashboard'
 import { Login } from './pages/Login'
 import { MyListings } from './pages/MyListings'
 import { Signup } from './pages/Signup'
@@ -55,6 +57,11 @@ export default function App() {
             } />
             <Route path="impact" element={<Impact />} />
             <Route path="how-it-works" element={<HowItWorks />} />
+            <Route path="dashboard" element={
+              <BusinessRoute>
+                <Dashboard />
+              </BusinessRoute>
+            } />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />
             <Route path="*" element={<Navigate to="/" replace />} />

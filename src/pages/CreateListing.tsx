@@ -60,7 +60,7 @@ export function CreateListing() {
         imageUrl = await uploadListingImage(imageFile)
       }
 
-      const listing = await createListing({
+      await createListing({
         title,
         description,
         category,
@@ -72,7 +72,7 @@ export function CreateListing() {
         city,
         imageUrl,
       })
-      navigate(`/listings/${listing.id}`)
+      navigate('/dashboard')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not create listing.')
     } finally {
