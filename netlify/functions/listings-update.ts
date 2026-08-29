@@ -1,8 +1,8 @@
 import type { Config, Context } from '@netlify/functions'
-import { getUser } from '@netlify/identity'
 import { eq } from 'drizzle-orm'
 import { db } from '../../db'
 import { listings } from '../../db/schema'
+import { userFromRequest } from './_shared/auth'
 import { errorJson, json, mapListing } from './_shared/map'
 import { getOwnedListing } from './_shared/owner'
 
@@ -13,8 +13,8 @@ const STATUSES = new Set(['active', 'sold'])
 export default async (req: Request, context: Context) => {
   if (req.method !== 'PATCH') return errorJson('Method not allowed', 405)
 
-  const user = await getUser()
-  if (!user) return errorJson('Unauthorized', 401)
+  const user = await userFromRequest(req)
+  if (!user) return errorJson('Unauthorized. Log in again.', 401)
 
   const id = Number(context.params?.id)
   if (!Number.isInteger(id) || id <= 0) return errorJson('Invalid listing id', 400)

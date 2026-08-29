@@ -1,7 +1,7 @@
 import type { Config } from '@netlify/functions'
-import { getUser } from '@netlify/identity'
 import { db } from '../../db'
 import { listings } from '../../db/schema'
+import { userFromRequest } from './_shared/auth'
 import { ensureBusiness } from './_shared/business'
 import { errorJson, json, mapListing } from './_shared/map'
 
@@ -14,8 +14,8 @@ export default async (req: Request) => {
     return errorJson('Method not allowed', 405)
   }
 
-  const user = await getUser()
-  if (!user) return errorJson('Unauthorized', 401)
+  const user = await userFromRequest(req)
+  if (!user) return errorJson('Unauthorized. Log in again, then publish.', 401)
 
   let body: Record<string, unknown>
   try {
@@ -75,12 +75,15 @@ export default async (req: Request) => {
         condition,
         city,
         imageUrl,
+        status: 'active',
       })
       .returning()
 
+    if (!created) return errorJson('Listing was not saved.', 503)
     return json(mapListing(created, business), 201)
-  } catch {
-    return errorJson('Could not save listing. Database may not be ready yet.', 503)
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : 'Database may not be ready yet.'
+    return errorJson(`Could not save listing. ${detail}`, 503)
   }
 }
 

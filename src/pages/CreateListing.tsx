@@ -57,7 +57,11 @@ export function CreateListing() {
     try {
       let imageUrl: string | null = null
       if (imageFile) {
-        imageUrl = await uploadListingImage(imageFile)
+        try {
+          imageUrl = await uploadListingImage(imageFile)
+        } catch {
+          imageUrl = null
+        }
       }
 
       const listing = await createListing({
@@ -74,7 +78,13 @@ export function CreateListing() {
       })
       navigate(`/listings/${listing.id}`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not create listing.')
+      const message =
+        err instanceof DOMException && err.name === 'TimeoutError'
+          ? 'Publishing timed out. Check you are logged in and try again.'
+          : err instanceof Error
+            ? err.message
+            : 'Could not create listing.'
+      setError(message)
     } finally {
       setPending(false)
     }
@@ -86,7 +96,11 @@ export function CreateListing() {
       <p className="lede">
         Post unused plastic or industrial material so another Myanmar business can use it.
       </p>
-      <form className="form" onSubmit={(event) => void submit(event)}>
+      <form
+        className="form"
+        onSubmit={(event) => void submit(event)}
+        onInvalid={() => setError('Fill the required fields above, then publish again.')}
+      >
         <label className="field">
           <span>Title</span>
           <input required value={title} onChange={(event) => setTitle(event.target.value)} />

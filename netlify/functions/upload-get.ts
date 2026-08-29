@@ -9,7 +9,7 @@ export default async (_req: Request, context: Context) => {
   if (!key) return errorJson('Missing key', 400)
 
   try {
-    const store = getStore(STORE)
+    const store = getStore({ name: STORE, consistency: 'strong' })
     const result = await store.getWithMetadata(key, { type: 'arrayBuffer' })
     if (!result) return errorJson('Not found', 404)
 
