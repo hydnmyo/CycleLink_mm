@@ -2,6 +2,7 @@ export type Category = 'plastic' | 'industrial'
 export type Unit = 'kg' | 'ton' | 'piece' | 'lot'
 export type Condition = 'new' | 'used' | 'scrap'
 export type ListingStatus = 'active' | 'sold'
+export type WantedStatus = 'active' | 'filled'
 export type PlasticSubcategory = 'PET' | 'HDPE' | 'PP' | 'film' | 'mixed'
 export type IndustrialSubcategory = 'metal' | 'textile' | 'machinery' | 'other'
 
@@ -72,4 +73,40 @@ export interface SellerInquiry {
   createdAt: string
   listing: Pick<Listing, 'id' | 'title'>
   buyer: Pick<Business, 'id' | 'name' | 'city' | 'email'>
+}
+
+export interface Wanted {
+  id: number
+  businessId: number
+  title: string
+  description: string
+  category: Category
+  subcategory: string
+  quantity: number
+  unit: Unit
+  city: string
+  status: WantedStatus
+  createdAt: string
+}
+
+export interface WantedWithBuyer extends Wanted {
+  buyer: Pick<Business, 'id' | 'name' | 'industry' | 'city' | 'email'>
+}
+
+export interface CreateWantedInput {
+  title: string
+  description: string
+  category: Category
+  subcategory: string
+  quantity: number
+  unit: Unit
+  city: string
+}
+
+export interface MatchAlert {
+  id: number
+  kind: 'surplus_for_wanted' | 'wanted_for_surplus'
+  createdAt: string
+  listing: Pick<Listing, 'id' | 'title' | 'city' | 'category' | 'subcategory'>
+  wanted: Pick<Wanted, 'id' | 'title' | 'city' | 'category' | 'subcategory'>
 }

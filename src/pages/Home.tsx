@@ -36,6 +36,9 @@ export function Home() {
             <Link className="btn btn-ghost" to={user ? '/listings/new' : '/signup'}>
               List your surplus
             </Link>
+            <Link className="btn btn-ghost" to="/wanted">
+              See wanted materials
+            </Link>
           </div>
         </div>
       </section>

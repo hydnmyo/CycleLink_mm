@@ -1,19 +1,16 @@
 import type { Config } from '@netlify/functions'
 import { getUser } from '@netlify/identity'
 import { db } from '../../db'
-import { listings } from '../../db/schema'
+import { wanted } from '../../db/schema'
 import { ensureBusiness } from './_shared/business'
-import { errorJson, json, mapListing } from './_shared/map'
-import { createAlertsForNewListing } from './_shared/match'
+import { errorJson, json, mapWanted } from './_shared/map'
+import { createAlertsForNewWanted } from './_shared/match'
 
 const CATEGORIES = new Set(['plastic', 'industrial'])
 const UNITS = new Set(['kg', 'ton', 'piece', 'lot'])
-const CONDITIONS = new Set(['new', 'used', 'scrap'])
 
 export default async (req: Request) => {
-  if (req.method !== 'POST') {
-    return errorJson('Method not allowed', 405)
-  }
+  if (req.method !== 'POST') return errorJson('Method not allowed', 405)
 
   const user = await getUser()
   if (!user) return errorJson('Unauthorized', 401)
@@ -31,39 +28,22 @@ export default async (req: Request) => {
   const subcategory = String(body.subcategory ?? '').trim()
   const quantity = Number(body.quantity)
   const unit = String(body.unit ?? '')
-  const condition = String(body.condition ?? '')
   const city = String(body.city ?? '').trim()
-  const priceRaw = body.priceMmk
-  const priceMmk =
-    priceRaw === null || priceRaw === '' || priceRaw === undefined
-      ? null
-      : Number(priceRaw)
-  const imageUrlRaw = body.imageUrl
-  const imageUrl =
-    imageUrlRaw === null || imageUrlRaw === '' || imageUrlRaw === undefined
-      ? null
-      : String(imageUrlRaw).trim()
 
   if (!title || !description || !subcategory || !city) {
     return errorJson('Title, description, subcategory, and city are required.', 422)
   }
-  if (!CATEGORIES.has(category) || !UNITS.has(unit) || !CONDITIONS.has(condition)) {
-    return errorJson('Invalid category, unit, or condition.', 422)
+  if (!CATEGORIES.has(category) || !UNITS.has(unit)) {
+    return errorJson('Invalid category or unit.', 422)
   }
   if (!Number.isFinite(quantity) || quantity <= 0) {
     return errorJson('Quantity must be a positive number.', 422)
-  }
-  if (priceMmk != null && (!Number.isFinite(priceMmk) || priceMmk < 0)) {
-    return errorJson('Price must be a positive number or empty.', 422)
-  }
-  if (imageUrl && !imageUrl.startsWith('/api/uploads/')) {
-    return errorJson('Invalid image URL.', 422)
   }
 
   try {
     const business = await ensureBusiness(user)
     const [created] = await db
-      .insert(listings)
+      .insert(wanted)
       .values({
         businessId: business.id,
         title,
@@ -72,26 +52,23 @@ export default async (req: Request) => {
         subcategory,
         quantity: quantity.toFixed(2),
         unit,
-        priceMmk,
-        condition,
         city,
-        imageUrl,
       })
       .returning()
 
     try {
-      await createAlertsForNewListing(created)
+      await createAlertsForNewWanted(created)
     } catch {
-      // Match alerts are best-effort so listing create still succeeds.
+      // Alerts are best-effort so posting demand still succeeds.
     }
 
-    return json(mapListing(created, business), 201)
+    return json(mapWanted(created, business), 201)
   } catch {
-    return errorJson('Could not save listing. Database may not be ready yet.', 503)
+    return errorJson('Could not save wanted listing. Database may not be ready yet.', 503)
   }
 }
 
 export const config: Config = {
-  path: '/api/listings',
+  path: '/api/wanted',
   method: 'POST',
 }

@@ -16,13 +16,13 @@ export function HowItWorks() {
           <h2>If you have surplus</h2>
           <p>1. Sign up with your company name, industry, and city.</p>
           <p>2. List plastic scrap, metal, textiles, or unused machinery parts.</p>
-          <p>3. Receive inquiries from businesses that can use the material.</p>
+          <p>3. Receive inquiries, and match alerts when a buyer posts a matching need.</p>
         </section>
         <section className="panel stack">
           <h2>If you need inputs</h2>
           <p>1. Browse public listings — no account required to look.</p>
           <p>2. Filter by material and city (Yangon, Mandalay, Bago, Thilawa SEZ).</p>
-          <p>3. Sign in and send an inquiry. Pickup and price stay between the two firms.</p>
+          <p>3. Post a wanted listing, or sign in and inquire. Matching surplus in the same city creates an alert.</p>
         </section>
       </div>
 

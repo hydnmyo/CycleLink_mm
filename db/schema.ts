@@ -41,6 +41,39 @@ export const inquiries = pgTable('inquiries', {
   createdAt: timestamp('created_at').defaultNow(),
 })
 
+export const wanted = pgTable('wanted', {
+  id: serial().primaryKey(),
+  businessId: integer('business_id')
+    .notNull()
+    .references(() => businesses.id),
+  title: varchar({ length: 255 }).notNull(),
+  description: text().notNull(),
+  category: varchar({ length: 32 }).notNull(),
+  subcategory: varchar({ length: 64 }).notNull(),
+  quantity: numeric('quantity', { precision: 12, scale: 2 }).notNull(),
+  unit: varchar({ length: 16 }).notNull(),
+  city: varchar({ length: 128 }).notNull(),
+  status: varchar({ length: 16 }).notNull().default('active'),
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
+export const matchAlerts = pgTable('match_alerts', {
+  id: serial().primaryKey(),
+  recipientBusinessId: integer('recipient_business_id')
+    .notNull()
+    .references(() => businesses.id),
+  listingId: integer('listing_id')
+    .notNull()
+    .references(() => listings.id),
+  wantedId: integer('wanted_id')
+    .notNull()
+    .references(() => wanted.id),
+  kind: varchar({ length: 32 }).notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+})
+
 export type BusinessRow = typeof businesses.$inferSelect
 export type ListingRow = typeof listings.$inferSelect
 export type InquiryRow = typeof inquiries.$inferSelect
+export type WantedRow = typeof wanted.$inferSelect
+export type MatchAlertRow = typeof matchAlerts.$inferSelect

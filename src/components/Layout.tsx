@@ -3,6 +3,7 @@ import { displayName, useAuth } from '../context/AuthProvider'
 
 const links = [
   { to: '/browse', label: 'Browse' },
+  { to: '/wanted', label: 'Wanted' },
   { to: '/impact', label: 'Impact' },
   { to: '/how-it-works', label: 'How it works' },
 ]
@@ -39,6 +40,9 @@ export function Layout() {
                 </NavLink>
                 <NavLink className="btn btn-ghost" to="/inbox">
                   Inbox
+                </NavLink>
+                <NavLink className="btn btn-ghost" to="/alerts">
+                  Alerts
                 </NavLink>
                 <NavLink className="btn btn-primary" to="/listings/new">
                   List surplus
