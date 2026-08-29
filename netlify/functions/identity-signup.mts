@@ -2,6 +2,7 @@ import type { Handler } from '@netlify/functions'
 import { eq } from 'drizzle-orm'
 import { db } from '../../db'
 import { businesses } from '../../db/schema'
+import { businessFieldsFromMeta } from './_shared/business'
 
 const handler: Handler = async (event) => {
   const payload = JSON.parse(event.body || '{}') as {
@@ -27,10 +28,7 @@ const handler: Handler = async (event) => {
       if (!existing[0]) {
         await db.insert(businesses).values({
           identityUserId,
-          name: String(meta.company ?? meta.full_name ?? 'Unnamed business'),
-          industry: String(meta.industry ?? 'Other'),
-          city: String(meta.city ?? 'Yangon'),
-          email: user?.email ?? '',
+          ...businessFieldsFromMeta(meta, { email: user?.email }),
         })
       }
     } catch {

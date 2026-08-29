@@ -11,6 +11,9 @@ export interface Business {
   industry: string
   city: string
   email: string
+  contactPerson?: string | null
+  phone?: string | null
+  registrationDocument?: string | null
   createdAt: string
 }
 

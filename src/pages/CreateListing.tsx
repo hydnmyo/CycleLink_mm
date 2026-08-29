@@ -23,7 +23,7 @@ export function CreateListing() {
     setError('')
     setPending(true)
     try {
-      const listing = await createListing({
+      await createListing({
         title,
         description,
         category,
@@ -34,7 +34,7 @@ export function CreateListing() {
         condition,
         city,
       })
-      navigate(`/listings/${listing.id}`)
+      navigate('/dashboard')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not create listing.')
     } finally {

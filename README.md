@@ -21,7 +21,7 @@ Login and signup use `@netlify/identity`. Identity does **not** work on local `n
 2. Keep registration **Open**
 3. Turn **Autoconfirm** on so hackathon signups skip the confirmation email
 
-After deploy, businesses can sign up with email, password, company name, industry, and city. Listing surplus and sending inquiries require that session.
+After deploy, businesses can register with name, industry, location, contact person, email, phone, password, and a registration document. Listing surplus and sending inquiries require that session.
 
 ## Database
 
