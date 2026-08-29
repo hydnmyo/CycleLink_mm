@@ -59,10 +59,10 @@ export function Home() {
             <Link className="btn btn-hero-ghost" to={user ? '/dashboard' : '/signup'}>
               Sell Surplus
             </Link>
-            <Link className="btn btn-hero-ghost" to="/how-it-works">
+            <Link className="btn btn-hero-ghost" to={user ? '/wanted/new' : '/signup'}>
               Post What You Need
             </Link>
-            <Link className="btn btn-ghost" to="/wanted">
+            <Link className="btn btn-hero-ghost" to="/wanted">
               See wanted materials
             </Link>
           </div>
