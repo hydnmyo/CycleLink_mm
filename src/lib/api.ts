@@ -1,10 +1,15 @@
 import { SEED_LISTINGS } from '../data/seed'
+import { SEED_WANTED } from '../data/seedWanted'
 import type {
   CreateInquiryInput,
   CreateListingInput,
+  CreateWantedInput,
   ListingWithSeller,
+  MatchAlert,
   SellerInquiry,
   UpdateListingInput,
+  WantedStatus,
+  WantedWithBuyer,
 } from '../types'
 
 function jwtFromCookie(): string {
@@ -129,4 +134,56 @@ export async function fetchSellerInquiries(): Promise<SellerInquiry[]> {
   const res = await fetch('/api/inquiries', requestInit({ headers: authHeaders(false) }))
   if (!res.ok) throw new Error(await readError(res))
   return (await res.json()) as SellerInquiry[]
+}
+
+export async function fetchWanted(): Promise<WantedWithBuyer[]> {
+  try {
+    const res = await fetch('/api/wanted')
+    if (!res.ok) throw new Error(await readError(res))
+    return (await res.json()) as WantedWithBuyer[]
+  } catch {
+    return SEED_WANTED.filter((item) => item.status === 'active')
+  }
+}
+
+export async function fetchWantedItem(id: number): Promise<WantedWithBuyer | null> {
+  try {
+    const res = await fetch(`/api/wanted/${id}`)
+    if (res.status === 404) return null
+    if (!res.ok) throw new Error(await readError(res))
+    return (await res.json()) as WantedWithBuyer
+  } catch {
+    return SEED_WANTED.find((item) => item.id === id) ?? null
+  }
+}
+
+export async function createWanted(input: CreateWantedInput): Promise<WantedWithBuyer> {
+  const res = await fetch('/api/wanted', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(input),
+  })
+  if (!res.ok) throw new Error(await readError(res))
+  return (await res.json()) as WantedWithBuyer
+}
+
+export async function updateWantedStatus(
+  id: number,
+  status: WantedStatus,
+): Promise<WantedWithBuyer> {
+  const res = await fetch(`/api/wanted/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify({ status }),
+  })
+  if (!res.ok) throw new Error(await readError(res))
+  return (await res.json()) as WantedWithBuyer
+}
+
+export async function fetchMatchAlerts(): Promise<MatchAlert[]> {
+  const res = await fetch('/api/alerts', { credentials: 'include' })
+  if (!res.ok) throw new Error(await readError(res))
+  return (await res.json()) as MatchAlert[]
 }

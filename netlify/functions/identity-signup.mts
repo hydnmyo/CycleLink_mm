@@ -1,4 +1,5 @@
 import type { Handler } from '@netlify/functions'
+import { businessFieldsFromMeta } from './_shared/business'
 
 type SignupUser = {
   id?: string
@@ -33,10 +34,7 @@ async function seedBusiness(user: SignupUser) {
 
   await db.insert(businesses).values({
     identityUserId: user.id,
-    name: String(meta.company ?? meta.full_name ?? 'Unnamed business'),
-    industry: String(meta.industry ?? 'Other'),
-    city: String(meta.city ?? 'Yangon'),
-    email: user.email ?? '',
+    ...businessFieldsFromMeta(meta, { email: user.email }),
   })
 }
 

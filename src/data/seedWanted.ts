@@ -1,0 +1,88 @@
+import type { WantedWithBuyer } from '../types'
+
+export const SEED_WANTED: WantedWithBuyer[] = [
+  {
+    id: 1,
+    businessId: 2,
+    title: 'Looking for clean HDPE scrap in Yangon',
+    description:
+      'Yangon Recycle Hub needs sorted HDPE drum or crate scrap for pelletizing. Prefer rinsed material, no mixed resins.',
+    category: 'plastic',
+    subcategory: 'HDPE',
+    quantity: 1,
+    unit: 'ton',
+    city: 'Yangon',
+    status: 'active',
+    createdAt: '2026-08-20T00:00:00.000Z',
+    buyer: {
+      id: 2,
+      name: 'Yangon Recycle Hub',
+      industry: 'Recycling',
+      city: 'Yangon',
+      email: 'trade@yangonrecycle.mm',
+    },
+  },
+  {
+    id: 2,
+    businessId: 6,
+    title: 'PET flakes or preform rejects — Thilawa / Yangon',
+    description:
+      'Irrawaddy Plastics will take clear PET flake or off-spec preforms this month. Moisture under 2% preferred.',
+    category: 'plastic',
+    subcategory: 'PET',
+    quantity: 500,
+    unit: 'kg',
+    city: 'Yangon',
+    status: 'active',
+    createdAt: '2026-08-21T00:00:00.000Z',
+    buyer: {
+      id: 6,
+      name: 'Irrawaddy Plastics',
+      industry: 'Plastic processing',
+      city: 'Yangon',
+      email: 'orders@irrawaddyplastics.mm',
+    },
+  },
+  {
+    id: 3,
+    businessId: 4,
+    title: 'Mild or stainless offcuts for Mandalay shop',
+    description:
+      'Mandalay Metalworks buys plate and sheet offcuts for smaller fabrication jobs. Oil-free preferred.',
+    category: 'industrial',
+    subcategory: 'metal',
+    quantity: 1,
+    unit: 'ton',
+    city: 'Mandalay',
+    status: 'active',
+    createdAt: '2026-08-19T00:00:00.000Z',
+    buyer: {
+      id: 4,
+      name: 'Mandalay Metalworks',
+      industry: 'Metal fabrication',
+      city: 'Mandalay',
+      email: 'sales@mdymetal.mm',
+    },
+  },
+  {
+    id: 4,
+    businessId: 3,
+    title: 'Cotton or denim cuttings for stuffing',
+    description:
+      'Hlaing Garment Works can use mixed cotton-rich cuttings as stuffing and industrial wipers.',
+    category: 'industrial',
+    subcategory: 'textile',
+    quantity: 400,
+    unit: 'kg',
+    city: 'Yangon',
+    status: 'active',
+    createdAt: '2026-08-18T00:00:00.000Z',
+    buyer: {
+      id: 3,
+      name: 'Hlaing Garment Works',
+      industry: 'Textiles',
+      city: 'Yangon',
+      email: 'factory@hlainggarment.mm',
+    },
+  },
+]

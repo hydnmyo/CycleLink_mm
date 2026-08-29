@@ -4,6 +4,7 @@ import { listings } from '../../db/schema'
 import { userFromRequest } from './_shared/auth'
 import { ensureBusiness } from './_shared/business'
 import { errorJson, json, mapListing } from './_shared/map'
+import { createAlertsForNewListing } from './_shared/match'
 
 const CATEGORIES = new Set(['plastic', 'industrial'])
 const UNITS = new Set(['kg', 'ton', 'piece', 'lot'])
@@ -80,6 +81,13 @@ export default async (req: Request) => {
       .returning()
 
     if (!created) return errorJson('Listing was not saved.', 503)
+
+    try {
+      await createAlertsForNewListing(created)
+    } catch {
+      // Match alerts are best-effort so listing create still succeeds.
+    }
+
     return json(mapListing(created, business), 201)
   } catch (err) {
     const detail = err instanceof Error ? err.message : 'Database may not be ready yet.'
