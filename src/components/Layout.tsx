@@ -4,6 +4,7 @@ import { displayName, useAuth } from '../context/AuthProvider'
 
 const links = [
   { to: '/browse', label: 'Browse' },
+  { to: '/wanted', label: 'Wanted' },
   { to: '/impact', label: 'Impact' },
   { to: '/how-it-works', label: 'How it works' },
 ]

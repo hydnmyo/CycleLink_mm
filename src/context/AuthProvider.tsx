@@ -36,6 +36,19 @@ export function displayName(user: User | null): string {
   return user?.name ?? user?.email ?? 'Account'
 }
 
+export function metaString(user: User | null, key: string): string {
+  const value = user?.userMetadata?.[key]
+  return typeof value === 'string' ? value.trim() : ''
+}
+
+export function displayCity(user: User | null): string {
+  return metaString(user, 'city') || metaString(user, 'location') || 'Yangon'
+}
+
+export function displayIndustry(user: User | null): string {
+  return metaString(user, 'industry') || 'Textiles'
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
